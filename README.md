@@ -1,11 +1,18 @@
-# OpenAI Chat Completions Tool Calling, Plain Text, and JSON Schema Demos
+# OpenAI Shell Demos: Chat Completions and Responses API
 
 This repository is a shell-only research demo for systems that can run `bash`.
-It demonstrates three Chat Completions patterns:
+It demonstrates four Chat Completions patterns:
 
 - Plain text responses
 - Structured JSON responses with `response_format: { "type": "json_schema" }`
 - Tool calling where each tool is implemented as a shell script
+- Interactive CLI chat with local message history
+
+It also includes a small Responses API comparison:
+
+- Plain text responses
+- Structured JSON responses with `text.format`
+- Function tool calling using the same shell tools
 
 The demos use `curl` for HTTP and `jq` for JSON parsing and construction.
 
@@ -35,6 +42,11 @@ OPENAI_BASE_URL=https://api.openai.com/v1
 task plain
 task json
 task tools
+task chat
+
+task responses:plain
+task responses:json
+task responses:tools
 task all
 ```
 
@@ -44,7 +56,26 @@ You can also run scripts directly:
 bash scripts/chat_plain.sh
 bash scripts/chat_json_schema.sh
 bash scripts/chat_tool_calling.sh
+bash scripts/chat_cli.sh
+
+bash scripts/responses_plain.sh
+bash scripts/responses_json_schema.sh
+bash scripts/responses_tool_calling.sh
 ```
+
+`task chat` starts an interactive shell loop. Type `/exit` or press `Ctrl-D` to
+quit. The conversation history is kept in a temporary JSON file for the life of
+the process.
+
+## Responses API Comparison
+
+The Responses API examples are intentionally separate from the Chat Completions
+examples. They show the newer `/v1/responses` request shape:
+
+- `input` and `instructions` instead of `messages`
+- `output_text` extraction from the response
+- `text.format` for JSON Schema output
+- Flat function tool definitions and `function_call_output` messages
 
 ## Tool Scripts
 

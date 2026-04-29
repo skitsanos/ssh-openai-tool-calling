@@ -29,10 +29,24 @@ chat_completions() {
     --data-binary "@${payload_file}"
 }
 
+responses_create() {
+  local payload_file="$1"
+
+  curl --fail-with-body --silent --show-error \
+    "${OPENAI_BASE_URL%/}/responses" \
+    -H "Authorization: Bearer ${OPENAI_API_KEY}" \
+    -H "Content-Type: application/json" \
+    --data-binary "@${payload_file}"
+}
+
 print_usage_cost_fields() {
   jq -r '
     if .usage then
-      "tokens prompt=\(.usage.prompt_tokens) completion=\(.usage.completion_tokens) total=\(.usage.total_tokens)"
+      if .usage.prompt_tokens then
+        "tokens prompt=\(.usage.prompt_tokens) completion=\(.usage.completion_tokens) total=\(.usage.total_tokens)"
+      else
+        "tokens input=\(.usage.input_tokens) output=\(.usage.output_tokens) total=\(.usage.total_tokens)"
+      end
     else
       "tokens unavailable"
     end

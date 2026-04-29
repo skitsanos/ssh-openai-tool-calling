@@ -35,12 +35,45 @@ tasks:
     cmds:
       - "{{.BASH}} scripts/chat_tool_calling.sh"
 
+  chat:
+    desc: Interactive Chat Completions CLI
+    deps: [setup]
+    interactive: true
+    cmds:
+      - "{{.BASH}} scripts/chat_cli.sh"
+
+  responses:plain:
+    desc: Responses API plain text demo
+    deps: [setup]
+    cmds:
+      - "{{.BASH}} scripts/responses_plain.sh"
+
+  responses:json:
+    desc: Responses API JSON Schema text.format demo
+    deps: [setup]
+    cmds:
+      - "{{.BASH}} scripts/responses_json_schema.sh"
+
+  responses:tools:
+    desc: Responses API tool calling demo backed by shell scripts
+    deps: [setup]
+    cmds:
+      - "{{.BASH}} scripts/responses_tool_calling.sh"
+
+  responses:all:
+    desc: Run all non-interactive Responses API demos
+    cmds:
+      - task responses:plain
+      - task responses:json
+      - task responses:tools
+
   all:
-    desc: Run all OpenAI API demos
+    desc: Run all non-interactive OpenAI API demos
     cmds:
       - task plain
       - task json
       - task tools
+      - task responses:all
 
   check:
     desc: Run local static checks for shell and JSON files
