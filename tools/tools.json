@@ -1,0 +1,56 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "get_current_time",
+      "description": "Get the current time for a requested timezone. Supports UTC and local system timezone names accepted by date/TZ.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["timezone"],
+        "properties": {
+          "timezone": {
+            "type": "string",
+            "description": "Timezone name, for example UTC or Europe/Bucharest."
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "count_files",
+      "description": "Count files below a repository path, excluding .git.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Relative path to count from. Use . for the repository root."
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "summarize_text",
+      "description": "Produce a simple deterministic local summary of short text.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["text"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Short text to summarize."
+          }
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,49 @@
+version: "3"
+
+dotenv:
+  - .env
+
+vars:
+  BASH: bash
+
+tasks:
+  default:
+    desc: List available demo tasks
+    cmds:
+      - task --list
+
+  setup:
+    desc: Verify local shell dependencies
+    cmds:
+      - "{{.BASH}} scripts/check_dependencies.sh"
+
+  plain:
+    desc: Chat Completions plain text response demo
+    deps: [setup]
+    cmds:
+      - "{{.BASH}} scripts/chat_plain.sh"
+
+  json:
+    desc: Chat Completions JSON Schema response_format demo
+    deps: [setup]
+    cmds:
+      - "{{.BASH}} scripts/chat_json_schema.sh"
+
+  tools:
+    desc: Chat Completions tool calling demo backed by shell scripts
+    deps: [setup]
+    cmds:
+      - "{{.BASH}} scripts/chat_tool_calling.sh"
+
+  all:
+    desc: Run all OpenAI API demos
+    cmds:
+      - task plain
+      - task json
+      - task tools
+
+  check:
+    desc: Run local static checks for shell and JSON files
+    cmds:
+      - "{{.BASH}} -n scripts/*.sh scripts/lib/*.sh tools/*.sh"
+      - jq empty tools/tools.json
